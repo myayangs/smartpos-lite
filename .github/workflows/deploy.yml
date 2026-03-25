@@ -27,13 +27,13 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+
       - name: Prepare Laravel environment for CI
         run: |
           cp .env.example .env
           php artisan key:generate
-
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist
 
       - name: Install Node dependencies
         run: npm install
