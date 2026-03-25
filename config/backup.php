@@ -8,7 +8,7 @@ return [
          * The name of this application. You can use this name to monitor
          * the backups.
          */
-        'name' => env('APP_NAME', 'laravel-backup'),
+        'name' => env('APP_NAME', 'smartpos-backup'),
 
         'source' => [
 
@@ -87,7 +87,7 @@ return [
         /*
          * The database dump can be compressed to decrease diskspace usage.
          *
-         * Out of the box Laravel-backup supplies
+         * Out of the box smartpos-backup supplies
          * Spatie\DbDumper\Compressors\GzipCompressor::class.
          *
          * You can also create custom compressor. More info on that here:
@@ -210,7 +210,7 @@ return [
      */
     'monitor_backups' => [
         [
-            'name' => env('APP_NAME', 'laravel-backup'),
+            'name' => env('APP_NAME', 'smartpos-backup'),
             'disks' => ['local'],
             'health_checks' => [
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
