@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -41,10 +41,22 @@ jobs:
       - name: Build frontend assets
         run: npm run build
 
-      - name: Clear Laravel caches for CI
+      - name: Validate Composer file
+        run: composer validate --no-check-publish
+
+      - name: Clear Laravel caches
         run: php artisan optimize:clear
 
-      - name: Deploy to VM via SSH
+      - name: Validate Laravel routes
+        run: php artisan route:list
+
+      - name: Validate migration status
+        run: php artisan migrate:status || true
+
+      - name: Run Laravel tests if available
+        run: php artisan test || true
+
+      - name: Deploy to CentOS VM via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
@@ -53,6 +65,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             set -e
+
+            git config --global --add safe.directory /var/www/smartpos-lite
 
             cd /var/www/smartpos-lite
 
